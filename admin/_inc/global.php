@@ -104,9 +104,9 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
  $BUSINESS = '';
  $BUSINESS = null;
  if ($_SERVER['HTTP_HOST']=='localhost') define('SITE_URL','http://localhost/marcandohora');
- else define('SITE_URL','http://marcandohora.com.br');
+ else define('SITE_URL','http://beta.marcandohora.com.br');
  //else define('SITE_URL','http://lslucas.my.phpcloud.com/escola/');
- define('PAINEL_URL','http://marcandohora.com.br/admin');
+ define('PAINEL_URL','http://beta.marcandohora.com.br/admin');
  $SITE_URL = SITE_URL;
  define('RODAPE','<a href="'.SITE_URL.'">'.SITE_NAME.'</a>');
 
