@@ -1,5 +1,59 @@
 <?php
 /*
+ *gera codigo unico
+ */
+function saveCode($code)
+{
+	global $conn;
+
+	if (empty($code))
+		exit(__FUNCTION__.' Informe um código!');
+
+	$sql = "INSERT INTO `".TP."_generated_codes` (`code`) VALUES (?)";
+	if (!$res = $conn->prepare($sql))
+		return $conn->error;
+
+	else {
+		$res->bind_param('s', $code);
+		$res->execute();
+		$res->close();
+
+		return true;
+	}
+
+}
+
+/*
+ *gera codigo unico
+ */
+function newCode($var=null, $maxchar=6)
+{
+	global $conn;
+
+	//gera o código e verifica se ele já existe antes de continuar
+	do {
+
+		$_code = generateHash($var);
+		$_code = justAlphanumeric($_code);
+		$code = substr($_code, 0, $maxchar);
+
+		if (strlen($code)!=$maxchar)
+			$num=1;
+		else {
+
+			$sql = "SELECT NULL FROM `".TP."_generated_codes` WHERE `code`=\"$code\"";
+			$res = $conn->query($sql);
+			$num = $res->num_rows;
+
+		}
+
+	} while ($num>0);
+
+
+	return $code;
+}
+
+/*
  *retorna valor da coluna
  */
 function getListUsers($args=null)
@@ -46,27 +100,79 @@ function getListUsers($args=null)
 
 	else {
 
-		$row = $qry->fetch_array();
 		$val = array();
 		$i=0;
-		print_r($row);
-		while ($row) {
-			var_dump($row);
-			$val = $row;
+
+		while ($row = $qry->fetch_assoc()) {
+			$val[$i] = $row;
 			$i++;
 		}
 		$qry->close();
-		/*
-		for($i=0; $i<count($field); $i++) {
-			$sufix_field = str_replace('cad_', '', $field[$i]);
-			$val[$i][$sufix_field] = isset($row[$field[$i]]) ? $row[$field[$i]] : '';
-		}
-		 */
 
-		//return $val;
+		return $val;
 	}
 
 }
+
+/*
+ *gera um hash unico, unique
+ */
+function generateHash($key, $crypt=false)
+{
+
+	$salt = pseudoRandomKey(256);
+	$hash = null;
+	for ($i=0; $i<100; $i++) {
+		 $hash = hash('sha512', $hash.$salt.$key);
+	}
+
+	//return $hash;
+	if ($crypt)
+		return encrypt($hash, $key);
+	else
+		return $hash;
+}
+
+/*
+ *RANDOM KEY
+ */
+function pseudoRandomKey($size, $strong=true)
+{
+
+	if (function_exists('openssl_random_pseudo_bytes')) {
+		$random = openssl_random_pseudo_bytes($size, $strong);
+		openssl_random_pseudo_bytes($size, $strong);
+	}
+
+	$sha='';
+	$rnd='';
+
+	for ($i=0;$i<$size;$i++) {
+		$sha = hash('sha256', $random . mt_rand());
+		$char= mt_rand(0, 62);
+		$rnd.= chr(hexdec($sha[$char] . $sha[$char+1]));
+	}
+
+	return $rnd;
+
+}
+
+/*
+ *apenas letras e numeros
+ */
+function justAlphanumeric($var)
+{
+   return preg_replace('/[^0-9A-Za-z]/', '', $var);
+}
+
+/*
+ *retorna apenas os numeros
+ */
+function justNumbers($var)
+{
+   return preg_replace('/[^0-9]/', '', $var);
+}
+
 /*
  *retorna valor da coluna
  */
@@ -92,6 +198,43 @@ function getUrlNoticia($not_id)
 	}
 
 }
+
+
+function encrypt($_input, $_key='your salt', $_type='mcrypt')
+{
+
+
+  /*
+   *if exists mcrypt and $_type is mcrypt
+   */
+  if (function_exists('mcrypt') && $_type=='mcrypt') {
+
+	  $td = mcrypt_module_open(MCRYPT_TWOFISH256, '', 'ofb', '');
+	  $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_BLOWFISH);
+
+	  mcrypt_generic_init($td, $_key, $iv);
+	  $encryptedData = mcrypt_generic($td, $_input);
+	  mcrypt_generic_deinit($td);
+	  mcrypt_module_close($td);
+
+  //else use md5
+  } else {
+
+	if(version_compare(PHP_VERSION, '5.0.0', '>='))
+	  $bool = true;
+	else $bool = false;
+
+	  $encryptedKey  = md5($_key, $bool) . md5($_input, $bool);
+	  $encryptedData = md5($encryptedKey, $bool);
+
+  }
+
+	// return generated password
+	// enjoy
+	return utf8_encode($encryptedData);
+
+}
+
 /*
  *retorna valor da coluna
  */
@@ -1476,13 +1619,95 @@ function debug($var) {
 	echo '<pre>'. print_r($var, 1) .'</pre>';
 }
 
+/*
+ *user agent
+ */
+function getUserAgentName($agent)
+{
+	$browserArray = array(
+		'Windows Mobile' => 'IEMobile',
+		'Android Mobile' => 'Android',
+		'iPhone Mobile' => 'iPhone',
+		'Firefox' => 'Firefox',
+		'Google Chrome' => 'Chrome',
+		'Internet Explorer' => 'MSIE',
+		'Opera' => 'Opera',
+		'Safari' => 'Safari'
+	); 
 
+	foreach ($browserArray as $k => $v) {
+
+		if (preg_match("/$v/", $agent))
+			break;
+		else
+			$k = "Browser Unknown";
+
+	} 
+
+	$browser = $k;
+
+
+	$osArray = array(
+		'Windows 98' => '(Win98)|(Windows 98)',
+		'Windows 2000' => '(Windows 2000)|(Windows NT 5.0)',
+		'Windows ME' => 'Windows ME',
+		'Windows XP' => '(Windows XP)|(Windows NT 5.1)',
+		'Windows Vista' => 'Windows NT 6.0',
+		'Windows 7' => '(Windows NT 6.1)|(Windows NT 7.0)',
+		'Windows NT 4.0' => '(WinNT)|(Windows NT 4.0)|(WinNT4.0)|(Windows NT)',
+		'Linux' => '(X11)|(Linux)',
+		'Mac OS' => '(Mac_PowerPC)|(Macintosh)|(Mac OS)'
+	); 
+
+	foreach ($osArray as $k => $v) {
+
+		if (preg_match("/$v/", $agent))
+			break;
+		else
+			$k = "Unknown OS";
+	} 
+
+	$os = $k;
+
+	return $browser.' - '.$os;
+
+}
+
+function logextended($acao, $modulo, $params) {
+	global $conn;
+
+	if (!is_array($params))
+		exit('Parâmetro inválido!');
+
+	if (empty($acao) || empty($params['log_id']))
+		exit('Dados inválidos');
+
+
+	$sql_loge = "INSERT INTO ".TABLE_PREFIX."_log_extended
+		(
+		 lex_log_id,
+		 lex_acao,
+		 lex_modulo,
+		 lex_antes,
+		 lex_depois
+		) VALUES (?, ?, ?, ?, ?)
+	  ";
+	if(!$qr_loge = $conn->prepare($sql_loge))
+		echo $conn->error();
+
+	else {
+		$qr_loge->bind_param('issss', $params['log_id'], $acao, $modulo, $params['antes'], $params['depois']);
+		$qr_loge->execute();
+		$qr_loge->close();
+	}
+
+}
 
 ## LOG
 #COMPUTA TUDO NA TABELA DE LOG
 ###############################
 function logquery() {
- global $conn;
+ global $conn, $log_id;
 
  if (!isset($_SESSION['user'])) {
      $userdata = array(
@@ -1550,6 +1775,7 @@ function logquery() {
    else {
     $qr_log->bind_param('isssssssssss', $log['id'], $log['nome'], $log['email'], $log['senha'], $slog['php_self'], $slog['query_string'], $slog['request_uri'], $slog['request_time'], $slog['http_referer'], $log['ip'], $log['host'],$log['useragent']);
     $qr_log->execute();
+	return $log_id = $conn->insert_id;
     $qr_log->close();
   }
 
@@ -1557,6 +1783,58 @@ function logquery() {
 ## //LOG
 #####
 
+## Retorna lista de campos e valores
+###############################
+function getFieldAndValues($params) {
+	global $conn;
+
+	if (!is_array($params))
+		exit('Parâmetro inválido!');
+
+	$id = $params['id'];
+	$mod = $params['modulo'];
+	$pre = $params['pre'];
+	$ref = isset($params['ref']) ? $params['ref'] : 'id';
+
+	if (empty($id) || empty($mod) || empty($pre))
+		exit('Dados inválidos');
+
+
+	/*
+	 *pega lista de colunas
+	 */
+	$sql= "SELECT * FROM ".TABLE_PREFIX."_{$mod} WHERE {$pre}_{$ref}=\"{$id}\"";
+	$fields = array();
+	if(!$qry = $conn->query($sql))
+		echo $conn->error();
+
+	else {
+
+		while($fld = $qry->fetch_field()) 
+			array_push($fields, str_replace($pre.'_', null, $fld->name));
+
+		$qry->close();
+	}
+
+	/*
+	 *pega valores dessas colunas
+	 */
+	$sqlv= "SELECT * FROM ".TABLE_PREFIX."_{$mod} WHERE {$pre}_{$ref}=\"{$id}\"";
+	if(!$qryv = $conn->query($sqlv))
+		echo $conn->error();
+
+	else {
+		$valores = $qryv->fetch_array(MYSQLI_ASSOC);
+		$qryv->close();
+	}
+
+	$res = null;
+	foreach ($fields as $i=>$col)
+		$res .= "{$col} = ".$valores[$pre.'_'.$col].";\n";
+
+
+	return $res."\n";
+}
 
 ## DEBUG
 # grava todo tipo de erro numa tabela e pode enviar para o administrador
@@ -1638,4 +1916,3 @@ function logquery() {
   set_error_handler('debuglog'); 
 ## //DEBUG
 #####
-?>

@@ -181,7 +181,7 @@ $(function(){
      *ao arrastar alguma linha altera a posição dos elementos
      *e altera na banco
 	 */
-	if ($('#posGaleria')) {
+	if ($('#posGaleria') && typeof $().tableDnD == 'function') {
 
 		$('#posGaleria').tableDnD({
 			onDrop: function(table, row) {
@@ -337,6 +337,13 @@ $(function(){
 		$('.phone').mask('(99) 9999-9999');
 		$('.data, .date').mask('99/99/9999');
 		$('.year').mask('9999');
+		$('.cpf, #cpf').mask('999.999.999-99');
+		$('.cep').mask('99.999-999');
+		$('.uf').mask('aa');
+		$('.cnpj').mask('99.999.999/9999-99');
+		$('.doubleint').mask('99');
+		$('.year').mask('9999');
+		$('.hour').mask('99:99');
 	}
 
 
