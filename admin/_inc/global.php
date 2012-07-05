@@ -38,7 +38,7 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
 	define('MAIL_SMTPAUTH', 'login');
 	define('MAIL_SMTPSECURE', 'tls');
 	define('MAIL_PORT', 587);
-	define('MAIL_USER', 'noreply@marcandohora.com.br');
+	define('MAIL_USER', 'no-reply@armariofeminino.com.br');
 	define('MAIL_PASS', 'noreply#');
 
 }
