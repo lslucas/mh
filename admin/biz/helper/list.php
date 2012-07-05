@@ -41,13 +41,13 @@
   $where = ' WHERE 1';
   $join = null;
   if( isset($_GET['letra']) && !empty($_GET['letra']) ) {
-    $where.= " AND ${var['pre']}_nome LIKE '".$_GET['letra']."%' ";
+    $where.= " AND ${var['pre']}_nome_fantasia LIKE '".$_GET['letra']."%' ";
   }
 
   if( isset($_GET['q']) && !empty($_GET['q']) ) {
 	$where.= " AND ( ";
-	$where.= " ${var['pre']}_nome LIKE '%".$_GET['q']."%' ";
-	$where.= " OR ${var['pre']}_biz LIKE '%".$_GET['q']."%' ";
+	$where.= " ${var['pre']}_nome_fantasia LIKE '%".$_GET['q']."%' ";
+	$where.= " OR ${var['pre']}_cnpj LIKE '%".$_GET['q']."%' ";
 	$where.= ")";
   }
 
@@ -78,7 +78,8 @@ $sql = "SELECT  ${var['pre']}_id,
 		${var['pre']}_estado,
 		${var['pre']}_cidade,
 		${var['pre']}_site,
-		DATE_FORMAT(${var['pre']}_timestamp, '%d/%m/%y')
+		${var['pre']}_status,
+		DATE_FORMAT(${var['pre']}_timestamp, '%d/%m/%y %H:%i')
 		FROM ".TABLE_PREFIX."_${var['table']}
 		{$join}
 		$where
@@ -93,7 +94,7 @@ $sql = "SELECT  ${var['pre']}_id,
   } else {
 
     $qry->execute();
-    $qry->bind_result($id, $usr_code, $nome_fantasia, $cnpj, $logo, $telefone1, $estado, $cidade, $site, $dt_cadastro);
+    $qry->bind_result($id, $usr_code, $nome_fantasia, $cnpj, $logo, $telefone1, $estado, $cidade, $site, $status, $dt_cadastro);
 
 
     if($total_itens==0) $total = 'Nenhum empresa'.$countLetra;

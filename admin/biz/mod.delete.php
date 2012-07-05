@@ -3,7 +3,7 @@
    $res[$chave] = $valor;
   }
 
- $sql_guarda = "SELECT {$var['pre']}nome, {$var['pre']}id FROM ".TABLE_PREFIX."_${var['table']} WHERE ${var['pre']}id=?";
+ $sql_guarda = "SELECT {$var['pre']}_nome_fantasia, {$var['pre']}_id FROM ".TABLE_PREFIX."_${var['table']} WHERE ${var['pre']}_id=?";
  $qry_guarda = $conn->prepare($sql_guarda);
  $qry_guarda->bind_param('i', $res['item']); 
  $ok = $qry_guarda->execute()?true:false;
@@ -14,26 +14,28 @@
 
 
 
- if(isset($_GET['verifica'])) {
-
-/*
-      if ($num==0)
-       echo 'removido';
-
-       else
-	echo 'não removido';
-*/
+ if(isset($_GET['verifica']))
 	echo $num;
 
 
-  } elseif ($ok) {
+  elseif ($ok) {
 
-	      $sql_rem = "DELETE FROM ".TABLE_PREFIX."_${var['table']} WHERE ${var['pre']}id=?";
+		  //log
+		  $antes = getFieldAndValues(array('id'=>$res['item'], 'modulo'=>$var['path'], 'pre'=>$var['pre']));
+
+	      $sql_rem = "DELETE FROM ".TABLE_PREFIX."_${var['table']} WHERE ${var['pre']}_id=?";
 	      $qry_rem = $conn->prepare($sql_rem);
 	      $qry_rem->bind_param('i', $res['item']); 
 
-			if ($qry_rem->execute())
-			  echo "<b>${nome}</b> removido com êxito!";
+			if ($qry_rem->execute()) {
+				echo "<b>${nome}</b> removido com êxito!";
+
+				//log
+				$acao = 'Removido';
+				$depois = null;
+				logextended($acao, $p, array('antes'=>$antes, 'depois'=>$depois, 'log_id'=>$log_id));
+
+			}
 
 	$qry_rem->close();
 

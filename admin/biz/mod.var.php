@@ -42,7 +42,7 @@
 
 
 	if ($act=='update' || isset($_GET['item'])) {
-		$sql_form = "SELECT $lfield FROM ".TABLE_PREFIX."_${var['table']} WHERE ${var['pre']}id=".intval($_GET['item']);
+		$sql_form = "SELECT $lfield FROM ".TABLE_PREFIX."_${var['table']} WHERE ${var['pre']}_id=".intval($_GET['item']);
 		$qry_form = $conn->query($sql_form);
 		$row = $qry_form->fetch_array();
 

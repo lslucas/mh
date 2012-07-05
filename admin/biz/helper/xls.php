@@ -11,38 +11,79 @@
     *pega o nome da festa e verifica se ela existe
     */
 	$row = array();
-	$sql_cad = "SELECT 
-				id,
-				nome,
-				email,
-				DATE_FORMAT(timestamp, '%d/%m/%Y %H:%i') cadastro
-               FROM ".TABLE_PREFIX."_newsletter 
-			   WHERE nome IS NOT NULL ORDER BY nome ASC";
+	$sql = "SELECT 
+				biz_id,
+				biz_code,
+				(SELECT usr_nome FROM ".TP."_user WHERE usr_code=biz_usr_code) usr_nome,
+				(SELECT usr_email FROM ".TP."_user WHERE usr_code=biz_usr_code) usr_email,
+				biz_nome_fantasia,
+				biz_razao_social,
+				biz_cnpj,
+				biz_endereco,
+				biz_estado,
+				biz_cidade,
+				biz_telefone1,
+				biz_telefone2,
+				biz_site,
+				biz_nota,
+				biz_status,
+				DATE_FORMAT(biz_timestamp, '%d/%m/%Y %H:%i') dt_cadastro
+               FROM ".TP."_biz 
+			   WHERE biz_nome_fantasia IS NOT NULL ORDER BY biz_timestamp DESC";
 
-	if ($qry_cad = $conn->prepare($sql_cad)){
+	if (!$qry = $conn->prepare($sql))
+		echo $conn->error;
 
-		$qry_cad->execute();
-		$qry_cad->store_result();
-		$qry_cad->bind_result($id, $nome, $email, $cadastro);
-		$num = $qry_cad->num_rows;
+	else {
 
-			while($qry_cad->fetch()) {
-				$row[$id]['id'] = $id;
-				$row[$id]['nome'] = $nome;
-				$row[$id]['email'] = $email;
-				$row[$id]['cadastro'] = $cadastro;
+		$qry->bind_result(
+			$id,
+			$code,
+			$usr_nome,
+			$usr_email,
+			$nome_fantasia,
+			$razao_social,
+			$cnpj,
+			$endereco,
+			$estado,
+			$cidade,
+			$telefone1,
+			$telefone2,
+			$site,
+			$nota,
+			$status,
+			$dt_cadastro
+		);
+		$qry->execute();
+
+			while($qry->fetch()) {
+				$row[$id]['code'] = $code;
+				$row[$id]['responsavel'] = $usr_nome;
+				$row[$id]['email_responsavel'] = $usr_email;
+				$row[$id]['nome_fantasia'] = $nome_fantasia;
+				$row[$id]['razao_social'] = $razao_social;
+				$row[$id]['cnpj'] = $cnpj;
+				$row[$id]['endereco'] = $endereco;
+				$row[$id]['estado'] = $estado;
+				$row[$id]['cidade'] = $cidade;
+				$row[$id]['telefone1'] = $telefone1;
+				$row[$id]['telefone2'] = $telefone2;
+				$row[$id]['site'] = $site;
+				$row[$id]['nota'] = $nota;
+				$row[$id]['status'] = $status;
+				$row[$id]['dt_cadastro'] = $dt_cadastro;
 
 			}
 
-		$qry_cad->close();
+		$qry->close();
 
-	} else echo $qry_cad->error;
-
-
+	}
 
 
-   if($num==0)
-     die('Nenhum email na lista!');
+
+
+   if(count($row)==0)
+     die('Nenhuma empresa na lista!');
 
    else {
 
@@ -55,7 +96,7 @@
       }
 
       # file name for download
-      $filename = "listadeemails_".date('d-m-Y').".xls";
+      $filename = "biz_".date('d-m-Y').".xls";
 
       header("Content-Disposition: attachment; filename=\"$filename\"");
       header("Content-Type: application/vnd.ms-excel; charset=utf-8");
@@ -64,20 +105,42 @@
 	  if(count($row)>0) {
 
 			# display field/column names as first row
-			echo "Lista de Emails\n";
+			echo "Lista de Empresas\n";
 			echo "Gerado em ".date('d/m/Y H:i')."\n\n";
 
-			echo "Nome\t";
-			echo "Email\t";
+			echo "Code\t";
+			echo "Responsável\t";
+			echo "Email do Responsável\t";
+			echo "Nome Fantasia\t";
+			echo "Razão Social\t";
+			echo "CNPJ\t";
+			echo "Endereço\t";
+			echo "Cidade/UF\t";
+			echo "Telefone 1\t";
+			echo "Telefone 2\t";
+			echo "Site\t";
+			echo "Notas\t";
+			echo "Cod. Status\t";
 			echo "Data/Hora Cadastro\t";
 			echo "\n";
 
 			$i=$totalValor=0;
 			foreach ($row as $id=>$arr) {
 
-				echo cleanData($arr['nome'])."\t";
-				echo cleanData($arr['email'])."\t";
-				echo cleanData($arr['cadastro'])."\t";
+				echo cleanData($arr['code'])."\t";
+				echo cleanData($arr['responsavel'])."\t";
+				echo cleanData($arr['email_responsavel'])."\t";
+				echo cleanData($arr['nome_fantasia'])."\t";
+				echo cleanData($arr['razao_social'])."\t";
+				echo cleanData($arr['cnpj'])."\t";
+				echo cleanData($arr['endereco'])."\t";
+				echo cleanData($arr['cidade'].'/'.$arr['estado'])."\t";
+				echo cleanData($arr['telefone1'])."\t";
+				echo cleanData($arr['telefone2'])."\t";
+				echo cleanData($arr['site'])."\t";
+				echo cleanData($arr['nota'])."\t";
+				echo cleanData($arr['status'])."\t";
+				echo cleanData($arr['dt_cadastro'])."\t";
 				echo "\n";
 				$totalValor++;
 
@@ -85,7 +148,7 @@
 
 			echo "\n";
 			echo "\n";
-			echo cleanData("Total de Emails até agora: {$totalValor}")."\t";
+			echo cleanData("Total de Empresas até agora: {$totalValor}")."\t";
 
 	  }
 

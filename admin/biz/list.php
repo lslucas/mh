@@ -21,10 +21,10 @@
 			<span class="caret"></span>
 		  </button>
 		  <ul class="dropdown-menu">
-			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'timestamp'?> ASC"<?php if($orderby==$var['pre'].'timestamp ASC') echo ' selected';?>">Data Crescente</a></li>
-			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'timestamp'?> DESC"<?php if($orderby==$var['pre'].'timestamp DESC') echo ' selected';?>">Data Decrescente</a></li>
-			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'nome'?> ASC"<?php if($orderby==$var['pre'].'nome ASC') echo ' selected';?>">Nome Crescente</a></li>
-			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'nome'?> DESC"<?php if($orderby==$var['pre'].'nome DESC') echo ' selected';?>">Nome Decrescente</a></li>
+			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'_timestamp'?> ASC"<?php if($orderby==$var['pre'].'_timestamp ASC') echo ' selected';?>">Data Crescente</a></li>
+			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'_timestamp'?> DESC"<?php if($orderby==$var['pre'].'_timestamp DESC') echo ' selected';?>">Data Decrescente</a></li>
+			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'_nome_fantasia'?> ASC"<?php if($orderby==$var['pre'].'_nome_fantasia ASC') echo ' selected';?>">Nome Crescente</a></li>
+			<li><a href="?p=<?=$p.$pag.$letter?>&orderby=<?=$var['pre'].'_nome_fantasia'?> DESC"<?php if($orderby==$var['pre'].'_nome_fantasia DESC') echo ' selected';?>">Nome Decrescente</a></li>
 		  </ul>
 		</div>
 
@@ -61,10 +61,33 @@
     while ($qry->fetch()) {
 
 $delete_images = null;
+//$delete_images = "&prefix=r_${var['pre']}_galeria&pre=rng&col=imagem&folder=${var['imagem_folderlist']}";
+$statusOnLabel = "<font color=#000000>Ativo</font>"; 
+$statusOnIcon = "<i class=icon-eye-open></i> ";
+$statusOffLabel =  "<font color=#999999>Bloqueado</font>";
+$statusOffIcon = "<i class=icon-eye-close></i> ";
+$altStatus = '{"ativo": "'.$statusOnIcon.$statusOnLabel.'", "inativo": "'.$statusOffIcon.$statusOffLabel.'"}';
+
+if ($status==1)
+	$descStatus = $statusOnIcon.$statusOnLabel;
+else
+	$descStatus = $statusOffIcon.$statusOffLabel;
+
 $row_actions = <<<end
-<a class='tip' data-toggle='modal' href='#rm-modal{$id}' title="Clique para remover o ítem selecionado">Remover</a>
-| <a class='tip' href="?p=$p&update&item=$id" title='Clique para editar o ítem selecionado'>Editar</a>
+		<div class="btn-group">
+          <a class="btn btn-mini" href="javascript:void(0);"><i class="icon-cog"></i></a>
+          <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" style='line-height:15px;'><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="?p=$p&update&item=$id" class='tip' title='Clique para editar o ítem selecionado'><i class="icon-pencil"></i> Editar</a></li>
+            <li><a href="#rm-modal{$id}" class='tip' data-toggle='modal' title="Clique para remover o ítem selecionado"><i class="icon-trash"></i> Deletar</a></li>
+			<li><a href="?p=$p&status&item=$id&noVisual" class='tip status status$id'  alt='{$altStatus}' title='Clique para alterar o status do ítem selecionado' id='$id' name='$nome_fantasia'>{$descStatus}</a></li>
+          </ul>
+		</div>
 end;
+
+
+
+
 ?>
 	<div class="modal fade" id="rm-modal<?=$id?>">
 		<div class="modal-header">
@@ -72,7 +95,7 @@ end;
 			<h3>Remoção</h3>
 		</div>
 		<div class="modal-body">
-		<p>Deseja remover <b><?=$nome?></b>?<div class='alert alert-warning small'>Ele será removido permanentemente!</div></p>
+		<p>Deseja remover <b><?=$nome_fantasia?></b>?<div class='alert alert-warning small'>Ele será removido permanentemente!</div></p>
 		</div>
 		<div class="modal-footer">
 			<a href="javascript:void(0);" class="btn" data-dismiss='modal'>Cancelar</a>
@@ -80,6 +103,8 @@ end;
 		</div>
 	</div>
 	<tr id="tr<?=$id?>">
+		<td>
+		</td>
 		<td>
 			<?php
 				if (!empty($site))
@@ -89,8 +114,9 @@ end;
 
 				if (!empty($site))
 					echo "</a>";
+
+				echo $row_actions;
 			?>
-			<div class='row-actions muted small'><?=$row_actions?></div>
 		</td>
 		<td>
 			<?php
@@ -101,7 +127,7 @@ end;
 			<?=$cidade.'/'.$estado?>
 		</td>
 		<td>
-			<?=$cadastro?>
+			<?=$dt_cadastro?>
 		</td>
 	</tr>
 <?php

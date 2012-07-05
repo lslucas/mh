@@ -4,8 +4,9 @@
    $res[$chave] = $valor;
   }
 
- $col = isset($_GET['status']) ? 'status' : (isset($_GET['fraude']) ? 'fraude' :  (isset($_GET['contactado']) ? 'contactado' :  null));
- $sql_guarda = "SELECT ${var['pre']}_nome,${var['pre']}_{$col} FROM ".TABLE_PREFIX."_${var['path']}";
+ $col = 'status';
+ //$col = isset($_GET['status']) ? 'status' : (isset($_GET['fraude']) ? 'fraude' :  (isset($_GET['contactado']) ? 'contactado' :  null));
+ $sql_guarda = "SELECT ${var['pre']}_nome_fantasia, ${var['pre']}_{$col} FROM ".TABLE_PREFIX."_${var['path']}";
  $sql_guarda.= " WHERE ${var['pre']}_id=?";
  if (!$qry_guarda = $conn->prepare($sql_guarda))
 	 echo $conn->error;

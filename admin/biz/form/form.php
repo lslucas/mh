@@ -34,13 +34,13 @@
         <select name='usr_code' id='usr_code' class="input-xlarge required">
 		<?php
 		  $listUsers = getListUsers();
-		  foreach ($listUsers as $usr_id=>$usr) {
+		  foreach ($listUsers as $int=>$usr) {
 
 			  $selected = null;
-			  if ($usr['code']==$val['usr_code'])
+			  if ($usr['usr_code']==$val['code'])
 				  $selected = ' selected';
 
-			  echo "\n\t\t<option value='{$usr['code']}'{$selected}>{$usr['nome']} - {$usr['email']}</option>'";
+			  echo "\n\t\t<option value='{$usr['usr_code']}'{$selected}>{$usr['usr_nome']} - {$usr['usr_email']}</option>'";
 
 		  }
 		?>
@@ -49,7 +49,8 @@
       </div>
     </div>
   </fieldset>
-<?=var_dump($listUsers)?>
+<?php
+?>
 
   <fieldset>
     <legend>Dados da Empresa</legend>
@@ -72,7 +73,7 @@
     <div class="control-group">
       <label class="control-label" for="cnpj">CNPJ</label>
       <div class="controls">
-        <input type="text" class="input-xlarge" placeholder='CNPJ' name='cnpj' id='cnpj' value='<?=$val['cnpj']?>'>
+        <input type="text" class="input-xlarge cnpj" placeholder='CNPJ' name='cnpj' id='cnpj' value='<?=$val['cnpj']?>'>
         <p class="help-block">Informe o CNPJ da empresa</p>
       </div>
     </div>
@@ -88,7 +89,7 @@
     <div class="control-group">
       <label class="control-label" for="estado">UF</label>
       <div class="controls">
-        <input type="text" class="input-xlarge" placeholder='UF' maxlength=2 name='uf' id='uf' value='<?=$val['estado']?>'>
+        <input type="text" class="input-xlarge uf" placeholder='UF' maxlength=2 name='estado' id='estado' value='<?=$val['estado']?>'>
         <p class="help-block">Informe o estado da empresa</p>
       </div>
     </div>
@@ -106,6 +107,30 @@
       <div class="controls">
         <input type="text" class="input-xlarge" placeholder='http://empresa.com.br' name='site' id='site' value='<?=$val['site']?>'>
         <p class="help-block">Informe o site da empresa</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="telefone1">Telefone 1</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge phone" placeholder='(99) 9999-9999' name='telefone1' id='telefone1' value='<?=$val['telefone1']?>'>
+        <p class="help-block">Telefone principal da empresa</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="telefone2">Telefone 2</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" placeholder='Telefone Secundário' name='telefone2' id='telefone2' value='<?=$val['telefone2']?>'>
+        <p class="help-block">Telefone secundário da empresa</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="nota">Notas</label>
+      <div class="controls">
+        <textarea name='nota' id='nota'><?=$val['nota']?></textarea>
+        <p class="help-block">Notas extras e observações</p>
       </div>
     </div>
 
