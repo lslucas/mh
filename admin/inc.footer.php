@@ -1,6 +1,5 @@
 
 
-      <hr>
       <footer class='no-print'>
 		  <?=$BUSINESS?>
       </footer>
