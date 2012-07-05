@@ -7,7 +7,7 @@
 	.column-container { width:530px; }
 </style>
 <center>
-	<form action="index.php" method="post" class='cmxform form-inline login' style='width:530px; text-align: left; '>
+	<form action="index.php" method="post" class='cmxform form-inline login' style='text-align: left; '>
 	<div class='well'>
 			<?php
 
@@ -22,7 +22,7 @@
 
 			?>
 			<?php if (file_exists(PATH_ADMLOGO)) { ?>
-			<img src='<?=PATH_ADMLOGO?>' border=0 style='float: left; margin-right:10px; margin-top: 0px;'/>
+			<img src='<?=PATH_ADMLOGO?>' border=0 style='float: left; margin-right:10px; margin-top: 10px;'/>
 			<?php }  else { ?>
 			<img src="http://placehold.it/160x180" alt="Logo" style='float: left; margin-right:20px;'>
 			<?php } ?>
