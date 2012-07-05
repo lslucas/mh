@@ -1,8 +1,6 @@
 body {
-	background:#f7f7f7 url('../images/textures/lightskyblue.jpg') no-repeat center center fixed;
-	/*
-	 *background:#f7f7f7 url('../images/textures/blue_and_white_stripes.jpg') no-repeat center center fixed;
-	 */
+	/*background:#f7f7f7 url('../images/textures/lightskyblue.jpg') no-repeat center center fixed;*/
+	background:#f7f7f7 url('../images/textures/lightblue.png') no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
