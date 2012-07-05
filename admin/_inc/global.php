@@ -57,10 +57,10 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
  
  } else {
 
- define('DB_SERVER','marcandohora.db.8229398.hostedresource.com');
- define('DB_USER','marcandohora');
+ define('DB_SERVER','marcandohr.db.8229398.hostedresource.com');
+ define('DB_USER','marcandohr');
  define('DB_PASS','mvdbt9MH@');
- define('DB_DATABASE','marcandohora');
+ define('DB_DATABASE','marcandohr');
 
  ini_set('display_errors','Off');
 
