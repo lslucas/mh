@@ -57,12 +57,12 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
  
  } else {
 
- define('DB_SERVER','setereinos.db.9481088.hostedresource.com');
- define('DB_USER','setereinos');
- define('DB_PASS','Seted@le01');
- define('DB_DATABASE','setereinos');
+ define('DB_SERVER','marcandohora.db.8229398.hostedresource.com');
+ define('DB_USER','marcandohora');
+ define('DB_PASS','mvdbt9MH@');
+ define('DB_DATABASE','marcandohora');
 
- ini_set('display_errors','On');
+ ini_set('display_errors','Off');
 
  }
 #prefixo das tabelas
