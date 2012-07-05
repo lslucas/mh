@@ -62,7 +62,7 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
  define('DB_PASS','mvdbt9MH@');
  define('DB_DATABASE','marcandohr');
 
- ini_set('display_errors','Off');
+ ini_set('display_errors','On');
 
  }
 #prefixo das tabelas
