@@ -26,7 +26,7 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-	<link rel="shortcut icon" href="<?=$rp?>images/favicon.ico">
+	<link rel="shortcut icon" href="<?=$rp?>../public/images/favicon.ico">
     <!-- STYLESHEETS -->
     <?php 
 	if (isset($include_css)) 

@@ -11,11 +11,11 @@
  define('EMAIL','contato@marcandohora.com.br');
  define('EMAIL_ANUNCIE', EMAIL);
  define('EMAIL_NAME','Marcando Hora');
- define('BBC1_EMAIL','');
+ define('BBC1_EMAIL','lucas@marcandohora.com.br');
  define('BBC2_EMAIL','');
  define('BBC3_EMAIL','');
  define('BBC4_EMAIL','');
- define('BBC1_NOME','');
+ define('BBC1_NOME','Lucas Serafim');
  define('BBC2_NOME','');
  define('BBC3_NOME','');
  define('BBC4_NOME','');
@@ -114,10 +114,10 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
  define('FILE_LOGO','logo.jpg');
  define('SITE_ADMLOGO','<img src="'.SITE_ADM_IMGPATH.'/'.FILE_LOGO.'" border="0">');
  define('URL_ADMLOGO','<img src="'.SITE_URL.SITE_ADM_IMGPATH.'/'.FILE_LOGO.'" border="0">');
- define('PATH_ADMLOGO',$rp.'../images/admin_logo.png');
+ define('PATH_ADMLOGO',$rp.'../public/images/admin_logo.png');
 
- define('PATH_FILE',$rp.'../upload');
- define('PATH_IMG',$rp.'../image');
+ define('PATH_FILE',$rp.'../public/upload');
+ define('PATH_IMG',$rp.'../public/images');
 
 # DEBUG
 #######
