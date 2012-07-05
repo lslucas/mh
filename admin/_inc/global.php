@@ -83,7 +83,7 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
  $base = $host.$path.'/';
 
  if( strpos($host, 'localhost')!=false ) ini_set('include_path', '.:/Users/lucasserafim/Sites/Zend/library.:/opt/local/lib/php');
- else ini_set('include_path', '.:/home/content/88/9481088/html/');
+ else ini_set('include_path', '.:/home/content/98/8229398/html');
 
 
 
