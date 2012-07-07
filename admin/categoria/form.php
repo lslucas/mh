@@ -100,11 +100,33 @@
     </div>
 
     <div class="control-group">
+      <label class="control-label" for="idrel">* Relacionado a </label>
+      <div class="controls">
+		  <select name='idrel' id='idrel'>
+			<option>Selecione</option>
+			<?php
+			  $sql_idrel = "SELECT cat_titulo, cat_id FROM ".TABLE_PREFIX."_categoria WHERE cat_status=1 AND cat_area='Categoria Principal' ORDER BY cat_titulo";
+			  $qry_idrel = $conn->prepare($sql_idrel);
+			  $qry_idrel->bind_result($nome, $id);
+			  $qry_idrel->execute();
+			 
+				  while ($qry_idrel->fetch()) {
+			?>
+		   <option value='<?=$id?>'<?php if ($act=='update' && $val['idrel']==$id) echo ' selected';?>> <?=$nome?></option>
+		<?php } $qry_idrel->close(); ?>
+		  </select>
+		<p class="help-block">Item relacionado a qual categoria principal?</p>
+      </div>
+    </div>
+
+    <div class="control-group">
       <label class="control-label" for="area">* Área</label>
       <div class="controls">
 		  <select name='area' id='area' class='required'>
 			<option>Selecione</option>
-			<option value='Post' <?php if($val['area']=='Post') echo ' selected';?>>Post</option>
+			<option value='Categoria Principal' <?php if($val['area']=='Categoria Principal') echo ' selected';?>>Categoria Principal</option>
+			<option value='Categoria Secundária' <?php if($val['area']=='Categoria Secundária') echo ' selected';?>>Categoria Secundária</option>
+			<option value='Categoria Outra' <?php if($val['area']=='Categoria Outra') echo ' selected';?>>Categoria Outra</option>
 		  </select>
 		<p class="help-block">Para onde vai esse ítem?</p>
       </div>
@@ -112,6 +134,7 @@
 
 	<div class='divMarca' class='hide'>
 
+<?php /*
 		<div class="control-group">
 		  <label class="control-label" for="idrel">* Marca</label>
 		  <div class="controls">
@@ -131,43 +154,8 @@
 			<p class="help-block">Marca do modelo</p>
 		  </div>
 		</div>
-
-
-		<div class="control-group">
-		  <label class="control-label" for="sobre_modelo">Sobre o Modelo</label>
-		  <div class="controls">
-			<textarea name='sobre_modelo' id='sobre_modelo' class='input-xlarge required' cols='80' rows='6'><?=stripslashes($val['sobre_modelo'])?></textarea>
-			<p class="help-block">Informações sobre o modelo para os detalhes do veículo</p>
-		  </div>
-		</div>
-
-	</div>
-
-	<div class='divPlano' class='hide'>
-
-		<div class="control-group">
-		  <label class="control-label" for="estoque">* Estoque</label>
-		  <div class="controls">
-			<input type="text" class="input-xlarge required number" maxlength=3 placeholder='Limite de Estoque na SelectShop' name='estoque' id='estoque' value='<?=$val['estoque']?>'>
-			<p class="help-block">Limite de Estoque na SelectShop</p>
-		  </div>
-		</div>
-
-		<div class="control-group">
-		  <label class="control-label" for="qtd_fotos">* Qtd. de fotos</label>
-		  <div class="controls">
-			<input type="text" class="input-xlarge required number" maxlength=2 placeholder='Qtd de fotos por veículo' name='qtd_fotos' id='qtd_fotos' value='<?=$val['qtd_fotos']?>'>
-			<p class="help-block">Limite de fotos por auto</p>
-		  </div>
-		</div>
-
-		<div class="control-group">
-		  <label class="control-label" for="premium">* Qtd. de veículos premium</label>
-		  <div class="controls">
-			<input type="text" class="input-xlarge required number" maxlength=3 placeholder='Qtd de veículos premium' name='premium' id='premium' value='<?=$val['premium']?>'>
-			<p class="help-block">Limite de veículos premium</p>
-		  </div>
-		</div>
+*/
+?>
 
 	</div>
 

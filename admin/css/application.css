@@ -7,7 +7,7 @@ body {
 	background-size: cover;
 	height:100%;
 }
-.small {
+.small, small {
 	font-size: 8pt;
 }
 .color-positive, .blue {
@@ -46,6 +46,17 @@ td.showDragHandle {
 .inline {
 	display:inline-block;
 	margin-left: 20px;
+}
+label.control-label {
+	font-weight:400;
+	color:#777;
+}
+p.help-block {
+	color:#888;
+	font-size:8pt;
+}
+fieldset legend * {
+	font-size:13px !important;
 }
 .input-nano {
 	width: 30px !important;

@@ -94,6 +94,8 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
 
  } else $rp = '';
 
+ $rph = dirname($_SERVER['PHP_SELF']).'/';
+ $rpadm = $rph.'admin/';
 
 
 
@@ -118,6 +120,14 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
 
  define('PATH_FILE',$rp.'../public/upload');
  define('PATH_IMG',$rp.'../public/images');
+
+ define('CSS', $rph.'public/css/');
+ define('JS', $rph.'public/js/');
+ if ($_SERVER['HTTP_HOST']=='localhost')
+	define('STATIC_PATH', $rph.'public/images/');
+ else
+	define('STATIC_PATH', 'http://static.marcandohora.com.br/');
+
 
 # DEBUG
 #######

@@ -45,12 +45,10 @@
 		  }
 		?>
 		</select>
-        <p class="help-block">Informe o nome fantasia da empresa</p>
+		<p class="help-block">Selecione o responsável pela empresa, se ainda não foi cadastrado <a href='<?=$rp?>index.php?p=user&insert' target='_blank'>clique aqui</a></p>
       </div>
     </div>
   </fieldset>
-<?php
-?>
 
   <fieldset>
     <legend>Dados da Empresa</legend>

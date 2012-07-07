@@ -37,15 +37,11 @@
 
             ${var['pre']}_titulo=?,
             ${var['pre']}_idrel=?,
-            ${var['pre']}_estoque=?,
-            ${var['pre']}_qtd_fotos=?,
-            ${var['pre']}_premium=?,
-            ${var['pre']}_sobre_modelo=?,
             ${var['pre']}_area=?
           	";
      $sql.=" WHERE ${var['pre']}_id=?";
      $qry=$conn->prepare($sql);
-     $qry->bind_param('siiiissi', $res['titulo'], $res['idrel'], $res['estoque'], $res['qtd_fotos'], $res['premium'], $res['sobre_modelo'], $res['area'], $res['item']); 
+     $qry->bind_param('sisi', $res['titulo'], $res['idrel'], $res['area'], $res['item']); 
      $qry->execute();
 
 
