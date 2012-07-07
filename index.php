@@ -12,10 +12,12 @@
 	 */
 	if(!empty($basename) && (!file_exists("public/$basename.php") && !file_exists("public/$basename"))){
 		header('HTTP/1.0 404 Not Found');
+		include_once 'public/header.php';
 		echo "<center>";
-		echo "<h1>".SITE_NAME."</h1>";
-		echo "Página não encontrada!<br/>Voltar para o <a href='".ABSPATH."'>inicio</a> ou voltar para a <a href='javascript:history.back(-1);'>pagina anterior</a>";
+		echo "<a href='".ABSPATH."'><img src='".STATIC_PATH."logo-mh.png' border=0></a>";
+		echo "<p>Página não encontrada!<br/>Voltar para o <a href='".ABSPATH."'>inicio</a> ou voltar para a <a href='javascript:history.back(-1);'>pagina anterior</a><p>";
 		echo "</center>";
+		include_once 'public/footer.php';
 		die();
 	}
 
