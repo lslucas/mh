@@ -97,9 +97,9 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
 
 
 	if( strpos($host, 'localhost')!=false )
-		$rph = dirname($_SERVER['PHP_SELF']);
-	else
 		$rph = dirname($_SERVER['PHP_SELF']).'/';
+	else
+		$rph = dirname($_SERVER['PHP_SELF']);
 
 	$rpadm = $rph.'admin/';
 
