@@ -88,14 +88,20 @@ if ($_SERVER['HTTP_HOST']=='localhost') {
 
 
 #rp relative path, caminho relativo para a raiz do back-end
- if (@!file_exists('inc.header.php')) {
-   if (@file_exists('../inc.header.php')) $rp = '../';
-   if (@file_exists('../../inc.header.php')) $rp = '../../';
+	if (@!file_exists('inc.header.php')) {
 
- } else $rp = '';
+		if (@file_exists('../inc.header.php')) $rp = '../';
+		if (@file_exists('../../inc.header.php')) $rp = '../../';
 
- $rph = dirname($_SERVER['PHP_SELF']).'/';
- $rpadm = $rph.'admin/';
+	} else $rp = '';
+
+
+	if( strpos($host, 'localhost')!=false )
+		$rph = dirname($_SERVER['PHP_SELF']);
+	else
+		$rph = dirname($_SERVER['PHP_SELF']).'/';
+
+	$rpadm = $rph.'admin/';
 
 
 
