@@ -25,7 +25,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-		  <a class="brand" href="<?=$rph?>"><?=SITE_NAME?></a>
+		  <a class="brand" href="<?=$rph?>"><span id='brand-spacer'></span><?=SITE_NAME?></a>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="<?=$rph?>">Home</a></li>

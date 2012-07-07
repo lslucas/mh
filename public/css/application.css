@@ -3,7 +3,16 @@ body {
 	padding-top: 60px;
 	padding-bottom: 40px;
 }
-
+#brand-spacer {
+	width:15px;
+	height:auto;
+	display:inline-block;
+}
+.brand {
+	background-image: url("../images/logo32-invert.png");
+	background-position: 0px 8px;
+	background-repeat: no-repeat;
+}
 .container,
 .navbar-fixed-top .container,
 .navbar-fixed-bottom .container {
