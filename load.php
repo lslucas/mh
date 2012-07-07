@@ -15,6 +15,10 @@
 
 	$backslash_pos = strpos($uri, '/');
 
+	$incjQuery = null;
+	$incJS = null;
+	$incMsg = null;
+
 	/*
 	*verifica se está em localhost
 	*/
